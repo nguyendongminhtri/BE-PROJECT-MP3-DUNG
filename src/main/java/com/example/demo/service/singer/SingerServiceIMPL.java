@@ -45,4 +45,8 @@ public class SingerServiceIMPL implements ISingerService {
     }
 
 
+    @Override
+    public Page<Singer> findAllByNameContaining(String name, Pageable pageable) {
+        return singerRepository.findAllByNameContaining(name,pageable);
+    }
 }

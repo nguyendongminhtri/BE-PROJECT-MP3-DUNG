@@ -1,8 +1,15 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.request.SearchDTO;
 import com.example.demo.dto.request.SongDTO;
 import com.example.demo.dto.response.ResponMessage;
+import com.example.demo.model.Album;
+import com.example.demo.model.Category;
+import com.example.demo.model.Singer;
 import com.example.demo.model.Song;
+import com.example.demo.service.album.IAlbumService;
+import com.example.demo.service.category.ICategoryService;
+import com.example.demo.service.singer.ISingerService;
 import com.example.demo.service.song.ISongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +29,12 @@ import java.util.Optional;
 public class SongController {
     @Autowired
     private ISongService songService;
+    @Autowired
+    private ICategoryService categoryService;
+    @Autowired
+    private IAlbumService albumService;
+    @Autowired
+    private ISingerService singerService;
 
     @GetMapping("/page")
     public ResponseEntity<?> pageSong(Pageable pageable) {
@@ -96,7 +109,15 @@ public class SongController {
     @GetMapping("/search/{name}")
     public ResponseEntity<?> getSongByName(@PathVariable String name, Pageable pageable) {
         Page<Song> songPage = songService.findAllByNameContaining(name, pageable);
-        return new ResponseEntity<>(songPage, HttpStatus.OK);
+        Page<Category> categoryPage = categoryService.findAllByNameContaining(name, pageable);
+        Page<Album> albumPage = albumService.findAllByNameContaining(name, pageable);
+        Page<Singer> singerPage = singerService.findAllByNameContaining(name, pageable);
+        SearchDTO searchDTO = new SearchDTO();
+        searchDTO.setSongPage(songPage);
+        searchDTO.setCategoryPage(categoryPage);
+        searchDTO.setAlbumPage(albumPage);
+        searchDTO.setSingerPage(singerPage);
+        return new ResponseEntity<>(searchDTO, HttpStatus.OK);
     }
 
     @GetMapping("/randomSong")

@@ -58,6 +58,11 @@ public class AlbumServiceIMPL implements IAlbumService {
     }
 
     @Override
+    public Page<Album> findAllByNameContaining(String name, Pageable pageable) {
+        return albumRepository.findAllByNameContaining(name, pageable);
+    }
+
+    @Override
     public List<Song> findByIdAlbum(Long id) {
         return albumRepository.findByIdAlbum(id);
     }

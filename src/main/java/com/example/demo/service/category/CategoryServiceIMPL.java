@@ -49,4 +49,9 @@ public class CategoryServiceIMPL implements ICategoryService {
     public Boolean existsByName(String name) {
         return categoryRepository.existsByName(name);
     }
+
+    @Override
+    public Page<Category> findAllByNameContaining(String name, Pageable pageable) {
+        return categoryRepository.findAllByNameContaining(name, pageable);
+    }
 }
