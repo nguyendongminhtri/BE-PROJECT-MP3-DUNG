@@ -123,6 +123,9 @@ public class SongController {
     @GetMapping("/randomSong")
     public ResponseEntity<?> getRandomSong() {
         List<Song> songList = songService.getSongByLit3();
+        if(songList.size()<3){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         List<Song> listRandom = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             listRandom.add(songList.get(i));
