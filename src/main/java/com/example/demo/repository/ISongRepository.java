@@ -18,7 +18,7 @@ public interface ISongRepository extends JpaRepository<Song, Long> {
     ///findAllByNameContaining  : tìm kiem gan dung : sql like %
     Page<Song> findAllByNameContaining(String name, Pageable pageable);
 
-    @Query("SELECT s FROM Song AS s ORDER BY rand()")
+    @Query(value = "SELECT * FROM Song ORDER BY rand() LIMIT 3", nativeQuery = true)
     List<Song> getSongByLit3();
 
     List<Song> findTop5ByOrderByTimeDesc();
