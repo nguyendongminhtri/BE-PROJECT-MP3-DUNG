@@ -14,7 +14,8 @@ public interface ISongService extends IGenericService<Song> {
 
     Page<Song> findAllByNameContaining(String name, Pageable pageable);
 
-    List<Song> getSongByLit3();
+    //    List<Song> getSongByLit3();
+    List<Song> getRanDomSong(int limit);
 
     void saveView(Song song);
 

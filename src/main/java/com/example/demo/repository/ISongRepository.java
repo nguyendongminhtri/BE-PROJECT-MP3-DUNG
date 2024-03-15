@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 
@@ -17,9 +19,6 @@ public interface ISongRepository extends JpaRepository<Song, Long> {
 
     ///findAllByNameContaining  : tìm kiem gan dung : sql like %
     Page<Song> findAllByNameContaining(String name, Pageable pageable);
-
-    @Query(value = "SELECT * FROM Song ORDER BY rand() LIMIT 3", nativeQuery = true)
-    List<Song> getSongByLit3();
 
     List<Song> findTop5ByOrderByTimeDesc();
 }

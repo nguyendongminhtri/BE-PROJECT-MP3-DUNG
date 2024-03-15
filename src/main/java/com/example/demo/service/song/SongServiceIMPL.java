@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +23,13 @@ public class SongServiceIMPL implements ISongService {
 
     @Autowired
     private UserDetailService userDetailService;
+    @PersistenceContext
+    private EntityManager entityManager;
 
+    public List<Song> getRanDomSong(int limit) {
+        return entityManager.createQuery("SELECT p FROM Song p ORDER BY rand()",
+                Song.class).setMaxResults(limit).getResultList();
+    }
     @Override
     public List<Song> findAll() {
         return songRepository.findAll();
@@ -59,10 +67,10 @@ public class SongServiceIMPL implements ISongService {
         return songRepository.findAllByNameContaining(name,pageable);
     }
 
-    @Override
-    public List<Song> getSongByLit3() {
-        return songRepository.getSongByLit3();
-    }
+//    @Override
+//    public List<Song> getSongByLit3() {
+//        return songRepository.getSongByLit3();
+//    }
 
     @Override
     public void saveView(Song song) {
